@@ -24,8 +24,8 @@ export default function Employees() {
 
   const [employees, setEmployees] = useState([]);
   const [departments, setDepartments] = useState([]);
-  const [positions, setPositions] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const [search, setSearch] = useState('');
   const [filterDept, setFilterDept] = useState('');

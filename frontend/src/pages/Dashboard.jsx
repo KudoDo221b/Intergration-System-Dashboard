@@ -58,7 +58,6 @@ const CHART_OPTS = {
 };
 
 export default function Dashboard() {
-  const user = getCurrentUser();
   const [stats, setStats] = useState({ totalEmployees: 0, payrollTotal: 0, attendanceRate: 0 });
   const [performance, setPerformance] = useState({ labels: [], revenue: [], expenses: [] });
   const [payrollBreakdown, setPayrollBreakdown] = useState({ labels: [], data: [] });

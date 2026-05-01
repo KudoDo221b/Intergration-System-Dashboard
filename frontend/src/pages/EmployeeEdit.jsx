@@ -22,7 +22,6 @@ export default function EmployeeEdit() {
   const [dataLoading, setDataLoading] = useState(true);
 
   const [toast, setToast] = useState(null);
-  const [successModal, setSuccessModal] = useState(false);
   const [errors, setErrors] = useState({});
 
   const showToast = (type, message) => {

@@ -1,12 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
-import StatCard from '../components/StatCard';
-import ChartCard from '../components/ChartCard';
 import ExportModal from '../components/ExportModal';
 import PayslipModal from '../components/PayslipModal';
-import Skeleton, { TableSkeleton } from '../components/Skeleton';
-import EmptyState from '../components/EmptyState';
 import { API_BASE, fetchAuth } from '../api';
 import { generateMonthOptions } from '../utils/dateUtils';
 
@@ -25,7 +21,7 @@ export default function Payroll() {
 
   const months = ['All Months', ...generateMonthOptions(12)];
 
-  const loadData = () => {
+  const loadData = useCallback(() => {
     setLoading(true);
     const monthQuery = selectedMonth !== 'All Months' ? `month=${encodeURIComponent(selectedMonth)}` : '';
     const deptQuery = selectedDept ? `dept=${encodeURIComponent(selectedDept)}` : '';
@@ -45,11 +41,11 @@ export default function Payroll() {
       console.error(err);
       setLoading(false);
     });
-  };
+  }, [selectedMonth, selectedDept]);
 
   useEffect(() => {
     loadData();
-  }, [selectedMonth, selectedDept]);
+  }, [loadData]);
 
   const filteredData = payrollData.filter(p => 
     p.FullName?.toLowerCase().includes(searchQuery.toLowerCase())
