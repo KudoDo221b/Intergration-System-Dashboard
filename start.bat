@@ -36,10 +36,10 @@ for /f "tokens=5" %%a in ('netstat -aon ^| find ":3000" ^| find "LISTENING"') do
 
 echo.
 echo Starting Backend Server (Flask)...
-start "Backend (Flask)" cmd /k "call .venv\Scripts\activate.bat && python app.py"
+start /b "Backend (Flask)" cmd /c "call .venv\Scripts\activate.bat && python app.py"
 
 echo Starting Frontend Server (React)...
-start "Frontend (React)" cmd /k "cd frontend && npm run dev"
+start /b "Frontend (React)" cmd /c "cd frontend && npm run dev"
 
 echo.
 echo ========================================================
