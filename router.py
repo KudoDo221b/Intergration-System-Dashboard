@@ -116,8 +116,10 @@ def login():
             return jsonify({"status": "error", "msg": msg}), 401
 
     except Exception as e:
-        print(f"Error in login: {e}")
-        return jsonify({"status": "error", "msg": "Lỗi máy chủ xác thực"}), 500
+        import traceback
+        traceback.print_exc()
+        print(f"[LOGIN ERROR DETAIL] SQL_SERVER={os.environ.get('SQL_SERVER')} AUTH_DB={os.environ.get('SQL_AUTH_DATABASE')} Error={e}")
+        return jsonify({"status": "error", "msg": "Lỗi máy chủ xác thực", "debug": str(e)}), 500
 
 # ============================================================
 # NEW API: PAYROLL DATA
