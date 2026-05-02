@@ -1,4 +1,4 @@
-const BASE_URL = process.env.REACT_APP_API_URL || "http://localhost:5001";
+const BASE_URL = process.env.REACT_APP_API_URL || "https://web-production-0599c.up.railway.app";
 export const API_BASE = `${BASE_URL}/api`;
 export const APP_URL = BASE_URL;
 
