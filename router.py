@@ -21,6 +21,49 @@ WORKING_DAYS_PER_MONTH = 22
 router = Blueprint("router", __name__)
 
 
+# DEBUG: Kiểm tra MySQL config trên Railway (xóa sau khi debug xong)
+@router.route("/api/debug/mysql")
+def debug_mysql():
+    import os, mysql.connector
+    host = os.environ.get('MYSQL_HOST', 'NOT_SET')
+    port = os.environ.get('MYSQL_PORT', 'NOT_SET')
+    user = os.environ.get('MYSQL_USER', 'NOT_SET')
+    database = os.environ.get('MYSQL_DATABASE', 'NOT_SET')
+    password_set = bool(os.environ.get('MYSQL_PASSWORD'))
+    
+    # Thu test ket noi
+    conn_status = "unknown"
+    conn_error = ""
+    try:
+        conn = mysql.connector.connect(
+            host=host,
+            port=int(port) if port != 'NOT_SET' else 3306,
+            user=user,
+            password=os.environ.get('MYSQL_PASSWORD', ''),
+            database=database,
+            connect_timeout=5,
+        )
+        cur = conn.cursor()
+        cur.execute("SHOW TABLES")
+        tables = [r[0] for r in cur.fetchall()]
+        conn.close()
+        conn_status = "connected"
+    except Exception as e:
+        conn_status = "failed"
+        conn_error = str(e)
+    
+    return jsonify({
+        "MYSQL_HOST": host,
+        "MYSQL_PORT": port,
+        "MYSQL_USER": user,
+        "MYSQL_DATABASE": database,
+        "MYSQL_PASSWORD_SET": password_set,
+        "connection_status": conn_status,
+        "connection_error": conn_error,
+        "tables": tables if conn_status == "connected" else []
+    })
+
+
 # Helper: log audit trail
 def log_audit(action, username="system", details=""):
     try:
